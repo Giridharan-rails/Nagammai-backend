@@ -1,0 +1,2 @@
+class NonMovingStock < ApplicationRecord
+end

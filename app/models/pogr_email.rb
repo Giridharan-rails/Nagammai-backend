@@ -1,0 +1,2 @@
+class PogrEmail < ApplicationRecord
+end

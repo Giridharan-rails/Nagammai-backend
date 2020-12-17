@@ -1,0 +1,37 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  claim_no: MyString
+  ack_date: 2017-12-13
+  supplier_code: MyString
+  customer_name: MyString
+  product_code: MyString
+  product_name: MyString
+  total_quantity: MyString
+  rate: MyString
+  overall_discount_percentage: MyString
+  overall_discount_amount: MyString
+  bill_number: MyString
+  bill_date: MyString
+  claim_amount: MyString
+  settled_amount: MyString
+  belongs_to: 
+  belongs_to: 
+
+two:
+  claim_no: MyString
+  ack_date: 2017-12-13
+  supplier_code: MyString
+  customer_name: MyString
+  product_code: MyString
+  product_name: MyString
+  total_quantity: MyString
+  rate: MyString
+  overall_discount_percentage: MyString
+  overall_discount_amount: MyString
+  bill_number: MyString
+  bill_date: MyString
+  claim_amount: MyString
+  settled_amount: MyString
+  belongs_to: 
+  belongs_to: 

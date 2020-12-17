@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  p_code: 1
+  describtion: MyString
+  packing: MyString
+  batch_desc: MyString
+  expiry_date: 2017-11-24
+  quantity: 1
+  bill_date: 2017-11-24
+  bill_number: MyString
+
+two:
+  p_code: 1
+  describtion: MyString
+  packing: MyString
+  batch_desc: MyString
+  expiry_date: 2017-11-24
+  quantity: 1
+  bill_date: 2017-11-24
+  bill_number: MyString

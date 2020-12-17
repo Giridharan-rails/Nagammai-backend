@@ -1,0 +1,2 @@
+class SyncSetting < ApplicationRecord
+end

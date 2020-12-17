@@ -1,0 +1,47 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  grn_number: MyString
+  grn_date: MyString
+  invoice_number: MyString
+  invoice_date: MyString
+  quantity: MyString
+  free_qunatity: MyString
+  gross: MyString
+  tax: MyString
+  amount: MyString
+  product_code: MyString
+  product_name: MyString
+  supplier_code: MyString
+  supplier_name: MyString
+  batch_description: MyString
+  purchase_price: MyString
+  mrp: MyString
+  purchase_taxcode: MyString
+  remarks: MyString
+  supplier_gstnumber: MyString
+  product: one
+  supplier: one
+
+two:
+  grn_number: MyString
+  grn_date: MyString
+  invoice_number: MyString
+  invoice_date: MyString
+  quantity: MyString
+  free_qunatity: MyString
+  gross: MyString
+  tax: MyString
+  amount: MyString
+  product_code: MyString
+  product_name: MyString
+  supplier_code: MyString
+  supplier_name: MyString
+  batch_description: MyString
+  purchase_price: MyString
+  mrp: MyString
+  purchase_taxcode: MyString
+  remarks: MyString
+  supplier_gstnumber: MyString
+  product: two
+  supplier: two

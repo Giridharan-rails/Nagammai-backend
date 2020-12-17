@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  supplier_code: MyString
+  email: MyString
+  status: MyString
+
+two:
+  supplier_code: MyString
+  email: MyString
+  status: MyString

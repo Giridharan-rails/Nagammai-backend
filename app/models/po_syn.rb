@@ -1,0 +1,2 @@
+class PoSyn < ApplicationRecord
+end

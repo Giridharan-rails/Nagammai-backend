@@ -1,0 +1,2 @@
+class NonFindableClaim < ApplicationRecord
+end

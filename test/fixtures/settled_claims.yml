@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  settled_claim_no: MyString
+  claim_no: MyString
+  settled_date: 2017-12-05
+  settled_qty: 1
+  settled_amount: 1.5
+  supplier_code: MyString
+  product_code: MyString
+  supplier: one
+  claim: one
+
+two:
+  settled_claim_no: MyString
+  claim_no: MyString
+  settled_date: 2017-12-05
+  settled_qty: 1
+  settled_amount: 1.5
+  supplier_code: MyString
+  product_code: MyString
+  supplier: two
+  claim: two

@@ -1,0 +1,2 @@
+class GrnLog < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+class SupplierSyn < ApplicationRecord
+end

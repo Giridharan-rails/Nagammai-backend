@@ -1,0 +1,2 @@
+class PoEmail < ApplicationRecord
+end

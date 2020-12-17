@@ -1,0 +1,2 @@
+class PurchaseReturnLog < ApplicationRecord
+end

@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  product_code: MyString
+  product_name: MyString
+  batch_description: MyString
+  received_date: 2017-12-13
+  last_sale_date: 2017-12-13
+  cost_val: MyString
+  invoice_number: MyString
+  uuu: MyString
+  belongs_to: 
+
+two:
+  product_code: MyString
+  product_name: MyString
+  batch_description: MyString
+  received_date: 2017-12-13
+  last_sale_date: 2017-12-13
+  cost_val: MyString
+  invoice_number: MyString
+  uuu: MyString
+  belongs_to: 

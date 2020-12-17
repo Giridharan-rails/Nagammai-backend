@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  settled_amount: 1.5
+  balance_amount: 1.5
+  credit_note_num: MyString
+  credit_date: 2018-01-29
+  remark: MyString
+  adjust_quantity: 1
+  claim_product_type: MyString
+  claim_product_id: 1
+
+two:
+  settled_amount: 1.5
+  balance_amount: 1.5
+  credit_note_num: MyString
+  credit_date: 2018-01-29
+  remark: MyString
+  adjust_quantity: 1
+  claim_product_type: MyString
+  claim_product_id: 1

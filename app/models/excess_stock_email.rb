@@ -1,0 +1,2 @@
+class ExcessStockEmail < ApplicationRecord
+end

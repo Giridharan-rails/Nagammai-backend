@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from_mail: MyString
+  from_password: MyString
+  cc_mail: MyString
+  cc_password: MyString
+
+two:
+  from_mail: MyString
+  from_password: MyString
+  cc_mail: MyString
+  cc_password: MyString

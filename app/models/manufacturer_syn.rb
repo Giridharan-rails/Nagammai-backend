@@ -1,0 +1,2 @@
+class ManufacturerSyn < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+class PogrSyn < ApplicationRecord
+end

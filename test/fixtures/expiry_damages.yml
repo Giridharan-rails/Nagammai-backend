@@ -1,0 +1,45 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  supplier_code: MyString
+  claim_no: MyString
+  ack_date: 2017-12-13
+  courier_lr_number: MyString
+  courier_date: 2017-12-13
+  courier_weight: MyString
+  ref_no: MyString
+  product_code: MyString
+  item_desc: MyString
+  packing: MyString
+  quantity: MyString
+  free_quantity: MyString
+  batch_desc: MyString
+  expiry_date: 2017-12-13
+  mrp: 1.5
+  rate: 1.5
+  claim_amount: MyString
+  settled_amount: MyString
+  belongs_to: 
+  belongs_to: 
+
+two:
+  supplier_code: MyString
+  claim_no: MyString
+  ack_date: 2017-12-13
+  courier_lr_number: MyString
+  courier_date: 2017-12-13
+  courier_weight: MyString
+  ref_no: MyString
+  product_code: MyString
+  item_desc: MyString
+  packing: MyString
+  quantity: MyString
+  free_quantity: MyString
+  batch_desc: MyString
+  expiry_date: 2017-12-13
+  mrp: 1.5
+  rate: 1.5
+  claim_amount: MyString
+  settled_amount: MyString
+  belongs_to: 
+  belongs_to: 

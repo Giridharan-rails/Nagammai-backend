@@ -1,0 +1,2 @@
+class NagammaiConnection < ApplicationRecord
+end

@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  product_code: MyString
+  product_name: MyString
+  batch_description: MyString
+  received_date: MyString
+  last_sale_date: MyString
+  cost_value: MyString
+  invoice_number: MyString
+  product_code: MyString
+  supplier_code: MyString
+  status: MyString
+  supplier: one
+  product: one
+
+two:
+  product_code: MyString
+  product_name: MyString
+  batch_description: MyString
+  received_date: MyString
+  last_sale_date: MyString
+  cost_value: MyString
+  invoice_number: MyString
+  product_code: MyString
+  supplier_code: MyString
+  status: MyString
+  supplier: two
+  product: two

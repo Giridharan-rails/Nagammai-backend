@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  description: MyString
+  resolved_by: MyString
+  cut_off_date: 2017-11-21
+  appointment: one
+
+two:
+  description: MyString
+  resolved_by: MyString
+  cut_off_date: 2017-11-21
+  appointment: two

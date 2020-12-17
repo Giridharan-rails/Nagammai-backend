@@ -1,0 +1,2 @@
+class ProductPurchaseMapping < ApplicationRecord
+end

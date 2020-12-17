@@ -1,0 +1,2 @@
+class ClaimSyn < ApplicationRecord
+end

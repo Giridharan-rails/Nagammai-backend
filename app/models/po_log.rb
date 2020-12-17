@@ -1,0 +1,2 @@
+class PoLog < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+class FreeDiscountEmail < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+class WonderSoft < ApplicationRecord
+end

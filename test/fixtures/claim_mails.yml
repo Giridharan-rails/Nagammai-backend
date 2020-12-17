@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  email: MyString
+  claim_no: MyString
+  status: MyString
+  claim: one
+
+two:
+  email: MyString
+  claim_no: MyString
+  status: MyString
+  claim: two

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_name: MyString
+  password: MyString
+  database_name,: MyString
+  server_name,: MyString
+  manual_sync_time: MyString
+
+two:
+  user_name: MyString
+  password: MyString
+  database_name,: MyString
+  server_name,: MyString
+  manual_sync_time: MyString

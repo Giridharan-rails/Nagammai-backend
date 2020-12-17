@@ -1,0 +1,2 @@
+class ExpiryDamageEmail < ApplicationRecord
+end

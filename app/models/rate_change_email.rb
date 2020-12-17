@@ -1,0 +1,2 @@
+class RateChangeEmail < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+class ExcessStockLog < ApplicationRecord
+end

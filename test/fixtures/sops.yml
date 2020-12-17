@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  order_type: MyString
+  payment_term: MyString
+  special_offer: MyString
+  claims_offer: MyString
+  expiry_broken_settlement: MyString
+  delivery_order_schedule: MyString
+  monthly_appoinment1: 2017-11-18
+  monthly_appoinment2: 2017-11-18
+  dispatch_mode: MyString
+  current_ns: 1.5
+  current_ms: 1.5
+  division: one
+
+two:
+  order_type: MyString
+  payment_term: MyString
+  special_offer: MyString
+  claims_offer: MyString
+  expiry_broken_settlement: MyString
+  delivery_order_schedule: MyString
+  monthly_appoinment1: 2017-11-18
+  monthly_appoinment2: 2017-11-18
+  dispatch_mode: MyString
+  current_ns: 1.5
+  current_ms: 1.5
+  division: two

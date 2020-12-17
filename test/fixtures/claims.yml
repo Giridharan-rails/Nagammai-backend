@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  purchase_code: MyString
+  description: MyString
+  packing: MyString
+  batch_desc: MyString
+  expiry_date: 2017-11-24
+  quantity: MyString
+  amount: MyString
+  bill_date: 2017-11-24
+  bill_number: MyString
+  type_of_claim: MyString
+  status: MyString
+  division: one
+
+two:
+  purchase_code: MyString
+  description: MyString
+  packing: MyString
+  batch_desc: MyString
+  expiry_date: 2017-11-24
+  quantity: MyString
+  amount: MyString
+  bill_date: 2017-11-24
+  bill_number: MyString
+  type_of_claim: MyString
+  status: MyString
+  division: two

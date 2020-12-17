@@ -1,0 +1,2 @@
+class PurchaseReturnEmail < ApplicationRecord
+end

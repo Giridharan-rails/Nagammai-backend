@@ -1,0 +1,2 @@
+class ExpiryDamageLog < ApplicationRecord
+end

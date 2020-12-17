@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  grn_number: MyString
+  grn_date: MyString
+  email: MyString
+  status: MyString
+
+two:
+  grn_number: MyString
+  grn_date: MyString
+  email: MyString
+  status: MyString

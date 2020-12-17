@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  gr_no: MyString
+  date: 2017-11-24
+  invoice_no: MyString
+  gross_amt: MyString
+  purchase_order: one
+  supplier: one
+
+two:
+  gr_no: MyString
+  date: 2017-11-24
+  invoice_no: MyString
+  gross_amt: MyString
+  purchase_order: two
+  supplier: two

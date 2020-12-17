@@ -1,0 +1,2 @@
+class RateChangeLog < ApplicationRecord
+end
