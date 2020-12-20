@@ -16,6 +16,7 @@ Rails.application.routes.draw do
    get 'send_mails/adjusment_preview'
    get 'send_mails/today_adjustment_claims'
    get 'claims/rate_change_claims'
+   get 'claims/non_findable_claims'
    get 'claims/purchase_return_claims'
    get 'claims/free_discount_claims'
    get 'claims/expiry_damage_claims'

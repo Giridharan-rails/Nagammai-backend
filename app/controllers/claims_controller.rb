@@ -520,6 +520,18 @@ def rate_change_claims
   claim_no.map{|i| data << {"claim_no":i,"total_quantity":RateChange.where(claim_number: i).pluck(:quantity),"settled_amount": RateChange.where(claim_number:i,supplier_id: supplier_id).pluck(:settled_amount),"claim_amount":RateChange.where(claim_number:i,supplier_id: supplier_id).pluck(:claim_amount),"data":RateChange.where(claim_number:i,supplier_id: supplier_id).as_json(include: {:supplier=>{only: :supplier_name}})}}
   render json: data
 end
+
+def non_findable_claims
+  data=[]
+  if params["supplier_id"].present?    # && params["from_date"]&&params["to_date"].present?
+    claim_no=NonFindableClaim.where(supplier_id:params[:supplier_id],ack_date: params[:from_date]..params[:to_date]).pluck(:claim_no).uniq
+  else
+    claim_no=NonFindableClaim.where(ack_date: params[:from_date]..params[:to_date]).pluck(:claim_no).uniq
+  end
+  supplier_id = params[:supplier_id].present? ? params[:supplier_id] : NonFindableClaim.all.pluck(:supplier_id).uniq
+  claim_no.map{|i| data << {"claim_no":i,"total_quantity":NonFindableClaim.where(claim_no: i).pluck(:quantity),"settled_amount": NonFindableClaim.where(claim_no:i,supplier_id: supplier_id).pluck(:ws_settle_amount),"claim_amount":NonFindableClaim.where(claim_no:i,supplier_id: supplier_id).pluck(:claim_amount),"data":NonFindableClaim.where(claim_no:i,supplier_id: supplier_id).as_json(include: {:supplier=>{only: :supplier_name}})}}
+  render json: data
+end
 # def expiry_damage_claims
 #   data=[]
 #   if params["supplier_id"].present?

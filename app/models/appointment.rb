@@ -1,7 +1,7 @@
 class Appointment < ApplicationRecord
   belongs_to :app_contact, polymorphic: true
   has_many :claim_issues, :dependent => :destroy
-  belongs_to :user
+  belongs_to :user, optional: :true
  
   def  self.monthly_appointment_create
      from_date=Date.current.beginning_of_month+1.month

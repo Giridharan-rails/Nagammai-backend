@@ -123,7 +123,7 @@ class SuppliersController < ApplicationController
 
     Rails.logger.info_log.info  " I,[#{Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")}]" "INFO -- : Entered in supplier_claims"
     begin
-      data1, data2, data3, data4 = [], [], [], []
+      data1, data2, data3, data4, data5 = [], [], [], [], []
     #data1 = FreeDiscount.where(amount_status:nil,supplier_id:params[:supplier_id]).select("DISTINCT(claim_no)",:claim_amount,:settled_amount,:supplier_id).as_json(include: {:supplier=> {only: :supplier_name}})
     #data2 = ExpiryDamage.where(amount_status:nil,supplier_id:params[:supplier_id]).select("DISTINCT(claim_no)",:claim_amount,:settled_amount,:supplier_id).as_json(include: {:supplier=> {only: :supplier_name}})
     #data3 = PurchaseReturn.where(amount_status:nil,supplier_id:params[:supplier_id]).select("DISTINCT(claim_no)",:claim_amount,:settled_amount,:supplier_id).as_json(include: {:supplier=> {only: :supplier_name}})
@@ -131,19 +131,27 @@ class SuppliersController < ApplicationController
     #claim=Supplier.find(params[:supplier_id]).claims1
     #claim={:free=> data1,:expiry=>data2,:purchase=> data3,:rate => data4}
 
-  claim_no=FreeDiscount.where(amount_status:nil,supplier_id:params[:supplier_id]).pluck(:claim_no).uniq
-  claim_no.map{|i| data1 << {"claim_no":i,"settled_amount": FreeDiscount.where(claim_no:i).pluck(:settled_amount).map(&:to_i).sum,"claim_amount":FreeDiscount.where(claim_no:i).pluck(:claim_amount).map(&:to_f).sum,"claim_date":FreeDiscount.find_by(claim_no:i).ack_date}}
+  free_dis_pending_claims = FreeDiscount.pending_claims.fetch(:datas).where(supplier_id:params[:supplier_id])
+  claim_no                = free_dis_pending_claims.pluck(:claim_no).uniq
+  claim_no.map{|i| data1 << {"claim_no":i,"settled_amount": free_dis_pending_claims.where(claim_no:i).pluck(:ws_settle_amount).map(&:to_f).sum,"claim_amount": free_dis_pending_claims.where(claim_no:i).pluck(:claim_amount).map(&:to_f).sum,"claim_date": free_dis_pending_claims.find_by(claim_no:i).ack_date}}
 
-  claim_no=ExpiryDamage.where(amount_status:nil,supplier_id:params[:supplier_id]).pluck(:claim_no).uniq
-  claim_no.map{|i| data2 << {"claim_no":i,"settled_amount": ExpiryDamage.where(claim_no:i).pluck(:settled_amount).map(&:to_i).sum,"claim_amount":ExpiryDamage.where(claim_no:i).pluck(:claim_amount).map(&:to_f).sum,"claim_date":ExpiryDamage.find_by(claim_no:i).ack_date}}
+  exp_dam_pending_claims = ExpiryDamage.pending_claims.fetch(:datas).where(supplier_id:params[:supplier_id])
+  claim_no                = exp_dam_pending_claims.pluck(:claim_no).uniq
+  claim_no.map{|i| data2 << {"claim_no":i,"settled_amount": exp_dam_pending_claims.where(claim_no:i).pluck(:ws_settle_amount).map(&:to_f).sum,"claim_amount":exp_dam_pending_claims.where(claim_no:i).pluck(:claim_amount).map(&:to_f).sum,"claim_date":exp_dam_pending_claims.find_by(claim_no:i).ack_date}}
 
-  claim_no=PurchaseReturn.where(amount_status:nil,supplier_id:params[:supplier_id]).pluck(:claim_no).uniq
-  claim_no.map{|i| data3 << {"claim_no":i,"settled_amount": PurchaseReturn.where(claim_no:i).pluck(:settled_amount).map(&:to_i).sum,"claim_amount":PurchaseReturn.where(claim_no:i).pluck(:claim_amount).map(&:to_f).sum,"claim_date":PurchaseReturn.find_by(claim_no:i).claim_date}}
+  pur_retr_pending_claims = PurchaseReturn.pending_claims.fetch(:datas).where(supplier_id:params[:supplier_id])
+  claim_no                = pur_retr_pending_claims.pluck(:claim_no).uniq
+  claim_no.map{|i| data3 << {"claim_no":i,"settled_amount": pur_retr_pending_claims.where(claim_no:i).pluck(:ws_settle_amount).map(&:to_f).sum,"claim_amount": pur_retr_pending_claims.where(claim_no:i).pluck(:claim_amount).map(&:to_f).sum,"claim_date": pur_retr_pending_claims.find_by(claim_no:i).claim_date}}
     
-  claim_no=RateChange.where(amount_status:nil,supplier_id:params[:supplier_id]).pluck(:claim_number).uniq
-  claim_no.map{|i| data4 << {"claim_no":i,"settled_amount": RateChange.where(claim_number:i).pluck(:settled_amount).map(&:to_i).sum,"claim_amount":RateChange.where(claim_number:i).pluck(:claim_amount).map(&:to_f).sum,"claim_date":RateChange.find_by(claim_number:i).ack_date}}
+  rate_chg_pending_claims = RateChange.pending_claims.fetch(:datas).where(supplier_id:params[:supplier_id])
+  claim_no                = rate_chg_pending_claims.pluck(:claim_number).uniq
+  claim_no.map{|i| data4 << {"claim_no":i,"settled_amount": rate_chg_pending_claims.where(claim_number:i).pluck(:ws_settle_amount).map(&:to_f).sum,"claim_amount": rate_chg_pending_claims.where(claim_number:i).pluck(:claim_amount).map(&:to_f).sum,"claim_date": rate_chg_pending_claims.find_by(claim_number:i).ack_date}}
 
-  claim={:free=> data1,:expiry=>data2,:purchase=> data3,:rate => data4}  
+  non_find_pending_claims = NonFindableClaim.pending_claims.fetch(:datas).where(supplier_id:params[:supplier_id])
+  claim_no                = non_find_pending_claims.pluck(:claim_no).uniq
+  claim_no.map{|i| data5 << {"claim_no":i,"settled_amount": non_find_pending_claims.where(claim_no:i).pluck(:ws_settle_amount).map(&:to_f).sum,"claim_amount": non_find_pending_claims.where(claim_no:i).pluck(:claim_amount).map(&:to_f).sum,"claim_date": non_find_pending_claims.find_by(claim_no:i).ack_date}}
+
+  claim={:free=> data1,:expiry=>data2,:purchase=> data3,:rate => data4, :non_findable => data5}  
    if claim.present?
     render json: claim
    else

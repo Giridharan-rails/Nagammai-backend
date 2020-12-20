@@ -3,6 +3,6 @@ class RateChange < ApplicationRecord
 	belongs_to :product
 	belongs_to :division
 	has_many :adjustments, as: :claim_product
-
-
+	include ClaimData
+	
 end

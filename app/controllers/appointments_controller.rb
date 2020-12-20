@@ -66,6 +66,7 @@ class AppointmentsController < ApplicationController
         render json: @appointment, status: :created, location: @appointment
       
       else
+        p "=======================#{@appointment.errors.full_messages}"
         
         render json: @appointment.errors, status: :unprocessable_entity
       

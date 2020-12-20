@@ -17,21 +17,21 @@
 default: &default
  adapter: postgresql
  encoding: unicode
- host: 192.168.0.156
+ host: localhost
 # pool: 10
 
 development:
   <<: *default
   #database: nagammai_devlopment1
   database: nagammai_live_devlopment
-  username: postgres
-  password: nagammai2020
+  username: giridharan
+  password: rails123
 
 test:
   <<: *default
   database: nagammai_live_test
-  username: postgres
-  password: nagammai2020
+  username: giridharan
+  password: rails123
 
 
 
