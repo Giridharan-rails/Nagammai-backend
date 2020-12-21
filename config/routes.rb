@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
   get 'claims/rate_change_claim_no'
   get 'claims/free_discount_claim_no'
+  get 'claims/purchase_return_claim_no'
+  get 'claims/non_findable_claim_no'
   post 'claims/expiry_damage_update'
   get 'claims/purchase_return_adjusments'
   get 'claims/status_filter'
