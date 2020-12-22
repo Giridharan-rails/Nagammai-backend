@@ -119,7 +119,7 @@ class AppointmentsController < ApplicationController
     
     begin
   
-    claim=ClaimIssue.where(approval: nil).as_json(include: [:contact,:appointment=>{include: :app_contact}])
+    claim=ClaimIssue.where(approval: nil).order(created_at: :desc).as_json(include: [:contact,:appointment=>{include: :app_contact}])
  
     render json: claim
 

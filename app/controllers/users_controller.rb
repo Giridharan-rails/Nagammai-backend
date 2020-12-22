@@ -65,7 +65,7 @@ end
   end
 # dash board we are display pending claims and todays po and chart details for last twelve  month pending claim amount
 def dashboard
-    previous_year, today = 1.year.ago, Date.today
+    previous_year, today = Date.new(2020,05,01), Date.new(2020,05,01)
     pending_claims     = {}.merge(FreeDiscount.pending_claims(previous_year, today), ExpiryDamage.pending_claims(previous_year, today), RateChange.pending_claims(previous_year, today), PurchaseReturn.pending_claims(previous_year, today), NonFindableClaim.pending_claims(previous_year, today))
     setteld_claims     = {}.merge(FreeDiscount.setteld_claims(today.beginning_of_month, today), ExpiryDamage.setteld_claims(today.beginning_of_month, today), RateChange.setteld_claims(today.beginning_of_month, today), PurchaseReturn.setteld_claims(today.beginning_of_month, today), NonFindableClaim.setteld_claims(today.beginning_of_month, today))
     @claim_count       = pending_claims.fetch(:count)
