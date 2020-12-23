@@ -5,7 +5,7 @@ class SendMailsController < ApplicationController
   def index
     Rails.logger.info_log.info  " I,[#{Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")}]" "INFO -- : sendmails Index"
    begin
-    @send_mails = SendMail.all
+    @send_mails = SendMail.where.not(job_name: ["Excess Stock", "PO-GR Mismatch"])
 
     render json: @send_mails
     rescue => e
