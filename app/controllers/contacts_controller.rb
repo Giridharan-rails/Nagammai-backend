@@ -76,7 +76,6 @@ class ContactsController < ApplicationController
       file_data=CSV.read(params["file"].tempfile)
         file_data.shift
             file_data.each do |a|
-
           if a[4]=="CFATITLE"
           a[4]= "CfaTitle"
           a[5]=CfaTitle.find_or_create_by(job_name:a[5]).id
@@ -94,7 +93,16 @@ class ContactsController < ApplicationController
           a[6]="Supplier"
           a[7]=Supplier.find_by(supplier_code:a[7]).id
           end
-          @contact=Contact.new(name:a[0],email:a[1],phone_number:a[2],address:a[3],jobs_name_type:a[4],jobs_name_id:a[5],sub_contact_type:a[6],sub_contact_id:a[7],mail_allocation:"purchase_order,excess_stock,rate_change,free_and_discounts,expiry,purchase_return,po_gr")
+          mail_allocations = []
+          mail_allocations << "purchase_order" if a[8]=="1"
+          mail_allocations << "non_moving_stock" if a[9]=="1"
+          mail_allocations << "rate_change" if a[10]=="1"
+          mail_allocations << "free_and_discounts" if a[11]=="1"
+          mail_allocations << "expiry" if a[12]=="1"
+          mail_allocations << "purchase_return" if a[13]=="1"
+          mail_allocations << "other_claim" if a[14]=="1"
+          @contact=Contact.new(name:a[0],email:a[1],phone_number:a[2],address:a[3],jobs_name_type:a[4],jobs_name_id:a[5],sub_contact_type:a[6],sub_contact_id:a[7],
+            mail_allocation: mail_allocations.join(','))
           if @contact.save
              data << @contact.id
           else
