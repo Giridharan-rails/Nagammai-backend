@@ -384,6 +384,27 @@ end
 
   render json: data
 end
+
+def send_mail_purchase_order_report
+
+
+data=[]
+if params["from_date"].present? and params["to_date"].present? and params["supplier_id"].nil?
+  order_no=PurchaseOrder.where(order_date:(params["from_date"]..params["to_date"])).pluck(:order_no).uniq
+  order_no.map{|i| data<< {"order_no":i,"order_date":PurchaseOrder.where(:order_no=>i).first.order_date,"supplier_code":Supplier.where(:supplier_code=>PurchaseOrder.where(:order_no=>i).first.supplier_code)[0].supplier_name,"total_item":PurchaseOrder.where(:order_no=>i).count,"total_quantity":PurchaseOrder.where(:order_no=>i).pluck(:quantity).map{|j| j.to_i}.sum,"amount": PurchaseOrder.where(:order_no=>i).map{|k| (k.quantity.to_i * k.amount.to_f+k.gst.to_f).to_f}.sum}}
+elsif params["from_date"].present? and params["to_date"].present? and params["supplier_id"].present?
+  order_no=PurchaseOrder.where(order_date:(params["from_date"]..params["to_date"]),supplier_id:params["supplier_id"]).pluck(:order_no).uniq
+  order_no.map{|i| data<< {"order_no":i,"order_date":PurchaseOrder.where(:order_no=>i).first.order_date,"supplier_code":Supplier.where(:supplier_code=>PurchaseOrder.where(:order_no=>i).first.supplier_code)[0].supplier_name,"total_item":PurchaseOrder.where(:order_no=>i).count,"total_quantity":PurchaseOrder.where(:order_no=>i).pluck(:quantity).map{|j| j.to_i}.sum,"amount": PurchaseOrder.where(:order_no=>i).map{|k| (k.quantity.to_i * k.amount.to_f+k.gst.to_f).to_f}.sum}}
+elsif params["from_date"].present? and params["to_date"].present?
+  order_no=PurchaseOrder.where(order_date:(params["from_date"]..params["to_date"])).pluck(:order_no).uniq
+  order_no.map{|i| data<< {"order_no":i,"order_date":PurchaseOrder.where(:order_no=>i).first.order_date,"supplier_code":Supplier.where(:supplier_code=>PurchaseOrder.where(:order_no=>i).first.supplier_code)[0].supplier_name,"total_item":PurchaseOrder.where(:order_no=>i).count,"total_quantity":PurchaseOrder.where(:order_no=>i).pluck(:quantity).map{|j| j.to_i}.sum,"amount": PurchaseOrder.where(:order_no=>i).map{|k| (k.quantity.to_i * k.amount.to_f+k.gst.to_f).to_f}.sum}}
+else
+  order_no=PurchaseOrder.where(order_date:Date.today).pluck(:order_no).uniq
+   order_no.map{|i| data<< {"order_no":i,"order_date":PurchaseOrder.where(:order_no=>i).first.order_date,"supplier_code":Supplier.where(:supplier_code=>PurchaseOrder.where(:order_no=>i).first.supplier_code)[0].supplier_name,"total_item":PurchaseOrder.where(:order_no=>i).count,"total_quantity":PurchaseOrder.where(:order_no=>i).pluck(:quantity).map{|j| j.to_i}.sum,"amount": PurchaseOrder.where(:order_no=>i).map{|k| (k.quantity.to_i * k.amount.to_f+k.gst.to_f).to_f}.sum}}
+end
+
+  render json: data
+end
 #display all pending claims by date and division
 def settled_claims_report
   

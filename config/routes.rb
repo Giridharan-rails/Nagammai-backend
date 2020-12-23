@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   resources :adjustments
   resources :goods_received_notes
   get 'send_mails/purchase_order_report'
+  get 'send_mails/send_mail_purchase_order_report'
   get 'send_mails/datewisefilter'
   get 'send_mails/datadelete'
   get 'appointments/pending_appointment'
