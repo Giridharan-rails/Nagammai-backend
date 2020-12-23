@@ -65,14 +65,14 @@ end
   end
 # dash board we are display pending claims and todays po and chart details for last twelve  month pending claim amount
 def dashboard
-    previous_year, today = Date.new(2020,05,01), Date.new(2020,05,01)
+    previous_year, today = 1.year.ago, Date.today
     pending_claims     = {}.merge(FreeDiscount.pending_claims(previous_year, today), ExpiryDamage.pending_claims(previous_year, today), RateChange.pending_claims(previous_year, today), PurchaseReturn.pending_claims(previous_year, today), NonFindableClaim.pending_claims(previous_year, today))
     setteld_claims     = {}.merge(FreeDiscount.setteld_claims(today.beginning_of_month, today), ExpiryDamage.setteld_claims(today.beginning_of_month, today), RateChange.setteld_claims(today.beginning_of_month, today), PurchaseReturn.setteld_claims(today.beginning_of_month, today), NonFindableClaim.setteld_claims(today.beginning_of_month, today))
     @claim_count       = pending_claims.fetch(:count)
     @claim_amount      = pending_claims.fetch(:amount)
     @adjustment_count  = setteld_claims.fetch(:count)
     @adjustment_amount = setteld_claims.fetch(:amount)
-    @month = (0..11).map{|i| Date.today.end_of_month - i.month}.reverse
+    @month = (0..11).map{|i| today.end_of_month - i.month}.reverse
     #@amount = (0..11).to_a
     @amount = @month.map { |i| {}.merge(FreeDiscount.pending_claims(previous_year, i), ExpiryDamage.pending_claims(previous_year, i), RateChange.pending_claims(previous_year, i), PurchaseReturn.pending_claims(previous_year, i), NonFindableClaim.pending_claims(previous_year, i)).fetch(:amount) }
     data = {
@@ -80,9 +80,9 @@ def dashboard
             "claim_amount": @claim_amount,
             "adjustment_count": @adjustment_count,
             "adjustment_amount": @adjustment_amount,
-            "POs": PurchaseOrder.where(:order_date=>Date.new(2020,12,01)..Date.new(2020,12,02)).pluck(:order_no).uniq.count,
-            "total_quantity": (PurchaseOrder.where(:order_date=>Date.new(2020,12,01)..Date.new(2020,12,02)).pluck(:free_qty).map{|i| i.to_i}.sum+PurchaseOrder.where(:order_date=>Date.new(2020,12,01)..Date.new(2020,12,02)).pluck(:quantity).map{|i| i.to_i}.sum),
-            "total_products": PurchaseOrder.where(:order_date=>Date.new(2020,12,01)..Date.new(2020,12,02)).pluck(:product_code).uniq.count,
+            "POs": PurchaseOrder.where(:order_date=>today).pluck(:order_no).uniq.count,
+            "total_quantity": (PurchaseOrder.where(:order_date=>today).pluck(:free_qty).map{|i| i.to_i}.sum+PurchaseOrder.where(:order_date=>today).pluck(:quantity).map{|i| i.to_i}.sum),
+            "total_products": PurchaseOrder.where(:order_date=>today).pluck(:product_code).uniq.count,
             "amount": @amount
            }
     render json: data
