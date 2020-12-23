@@ -376,13 +376,13 @@ def datewise_filter_claim
 render json: @datewise_filter
 =end
   if params["from_date"].present?&&params["to_date"].present?&&params["status"] != "Approved" and params["status"].present?
-    @datewise_filter=ClaimIssue.where(cut_off_date:(params["from_date"]..params["to_date"]),status:params["status"],approval:nil).as_json(include: [:contact,:appointment=>{include: :app_contact}])
+    @datewise_filter=ClaimIssue.where(cut_off_date:(params["from_date"]..params["to_date"]),status:params["status"],approval:nil).order(created_at: :desc).as_json(include: [:contact,:appointment=>{include: :app_contact}])
   elsif params["from_date"].present?&&params["to_date"].present?&& params["status"] == "Approved"
-    @datewise_filter=ClaimIssue.where(cut_off_date:(params["from_date"]..params["to_date"]),approval: true).as_json(include: [:contact,:appointment=>{include: :app_contact}])
+    @datewise_filter=ClaimIssue.where(cut_off_date:(params["from_date"]..params["to_date"]),approval: true).order(created_at: :desc).as_json(include: [:contact,:appointment=>{include: :app_contact}])
   elsif  params["from_date"].present?&&params["to_date"].present?&&params["status"].empty?
-    @datewise_filter=ClaimIssue.where(cut_off_date:(params["from_date"]..params["to_date"]),approval: true).as_json(include: [:contact,:appointment=>{include: :app_contact}])
+    @datewise_filter=ClaimIssue.where(cut_off_date:(params["from_date"]..params["to_date"]),approval: true).order(created_at: :desc).as_json(include: [:contact,:appointment=>{include: :app_contact}])
   else
-    @datewise_filter=ClaimIssue.where(status:params["status"],approval:nil).as_json(include: [:contact,:appointment=>{include: :app_contact}])
+    @datewise_filter=ClaimIssue.where(status:params["status"],approval:nil).order(created_at: :desc).as_json(include: [:contact,:appointment=>{include: :app_contact}])
   end
   render json: @datewise_filter
 end
