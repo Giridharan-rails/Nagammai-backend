@@ -3,7 +3,15 @@ class ClaimIssuesController < ApplicationController
 
   # GET /claim_issues
   def index
-    @claim_issues = ClaimIssue.limit(2)
+    if params["from_date"].present? && params["to_date"].present?
+      claim_issues = ClaimIssue.where(cut_off_date: params["from_date"]..params["to_date"])
+    else
+      claim_issues = ClaimIssue.all
+    end
+    claim_issues = claim_issues.where(status: params["status"]) if params["status"].present?
+    claim_issues = claim_issues.where(user_id: params["user_id"]) if params["user_id"].present?
+    claim_issues = claim_issues.where(devision_id: params["devision_id"]) if params["devision_id"].present?
+    @claim_issues = claim_issues.order(created_at: :desc).as_json(include: [:contact, :division, :user])
     render json: @claim_issues
   end
 
@@ -14,11 +22,13 @@ class ClaimIssuesController < ApplicationController
 
   # POST /claim_issues
   def create
+    params.permit!
     @claim_issue = ClaimIssue.new(claim_issue_params)
 
     if @claim_issue.save
       render json: @claim_issue, status: :created, location: @claim_issue
     else
+      puts "================#{@claim_issue.errors.full_messages}"
       render json: @claim_issue.errors, status: :unprocessable_entity
     end
   end
@@ -45,6 +55,6 @@ class ClaimIssuesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def claim_issue_params
-      params.fetch(:claim_issue, {})
+      params.require(:claim_issue).permit(:id, :description, :cut_off_date, :status, :notes, :contact_id, :appointment_id, :created_at, :updated_at, :approval, :mail_status, :remarks, :manual_status, :division_id, :user_id)
     end
 end
