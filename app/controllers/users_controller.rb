@@ -66,15 +66,15 @@ end
 # dash board we are display pending claims and todays po and chart details for last twelve  month pending claim amount
 def dashboard
     previous_year, today = 1.year.ago, Date.today
-    pending_claims     = {}.merge(FreeDiscount.pending_claims(previous_year, today), ExpiryDamage.pending_claims(previous_year, today), RateChange.pending_claims(previous_year, today), PurchaseReturn.pending_claims(previous_year, today), NonFindableClaim.pending_claims(previous_year, today))
-    setteld_claims     = {}.merge(FreeDiscount.setteld_claims(today.beginning_of_month, today), ExpiryDamage.setteld_claims(today.beginning_of_month, today), RateChange.setteld_claims(today.beginning_of_month, today), PurchaseReturn.setteld_claims(today.beginning_of_month, today), NonFindableClaim.setteld_claims(today.beginning_of_month, today))
+    pending_claims     = [FreeDiscount.pending_claims(previous_year, today), ExpiryDamage.pending_claims(previous_year, today), RateChange.pending_claims(previous_year, today), PurchaseReturn.pending_claims(previous_year, today), NonFindableClaim.pending_claims(previous_year, today)].inject{|memo, el| memo.merge( el ){|k, old_v, new_v| old_v + new_v}}
+    setteld_claims     = [FreeDiscount.setteld_claims(today.beginning_of_month, today), ExpiryDamage.setteld_claims(today.beginning_of_month, today), RateChange.setteld_claims(today.beginning_of_month, today), PurchaseReturn.setteld_claims(today.beginning_of_month, today), NonFindableClaim.setteld_claims(today.beginning_of_month, today)].inject{|memo, el| memo.merge( el ){|k, old_v, new_v| old_v + new_v}}
     @claim_count       = pending_claims.fetch(:count)
     @claim_amount      = pending_claims.fetch(:amount)
     @adjustment_count  = setteld_claims.fetch(:count)
     @adjustment_amount = setteld_claims.fetch(:amount)
     @month = (0..11).map{|i| today.end_of_month - i.month}.reverse
     #@amount = (0..11).to_a
-    @amount = @month.map { |i| {}.merge(FreeDiscount.pending_claims(previous_year, i), ExpiryDamage.pending_claims(previous_year, i), RateChange.pending_claims(previous_year, i), PurchaseReturn.pending_claims(previous_year, i), NonFindableClaim.pending_claims(previous_year, i)).fetch(:amount) }
+    @amount = @month.map { |i| [FreeDiscount.pending_claims(previous_year, i), ExpiryDamage.pending_claims(previous_year, i), RateChange.pending_claims(previous_year, i), PurchaseReturn.pending_claims(previous_year, i), NonFindableClaim.pending_claims(previous_year, i)].inject{|memo, el| memo.merge( el ){|k, old_v, new_v| old_v + new_v}}.fetch(:amount) }
     data = {
             "claim_count": @claim_count,
             "claim_amount": @claim_amount,

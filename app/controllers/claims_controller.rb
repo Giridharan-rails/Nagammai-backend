@@ -481,29 +481,21 @@ end
 # the below method is used to display the expiry damage report
 def expiry_damage_claims
   data=[]
-  
-  if params["supplier_id"].present?   #  &&params["from_date"]&&params["to_date"].present?
-     claim_no=ExpiryDamage.where(supplier_id:params[:supplier_id],ack_date: params[:from_date]..params[:to_date]).pluck(:claim_no).uniq
-  else
-     claim_no=ExpiryDamage.where(ack_date: params[:from_date]..params[:to_date]).pluck(:claim_no).uniq
-  end
-  supplier_id = params[:supplier_id].present? ? params[:supplier_id] : ExpiryDamage.all.pluck(:supplier_id).uniq
-  claim_no.map{|i| data << {"claim_no":i,"total_quantity": ExpiryDamage.where(claim_no: i).pluck(:quantity),"settled_amount": ExpiryDamage.where(claim_no:i,supplier_id: supplier_id).pluck(:ws_settle_amount),"claim_amount": ExpiryDamage.where(claim_no:i,supplier_id: supplier_id).pluck(:claim_amount), "data": ExpiryDamage.where(claim_no:i,supplier_id: supplier_id).as_json(include: {:supplier=>{only: :supplier_name}}).sort_by{|i| i["ack_date"]}.reverse!  }} 
+  expiry_filter_query = {amount_status: nil}
+  expiry_filter_query.to_h.merge!({ack_date: (params[:from_date]..params[:to_date])}) if params[:from_date].present? && params[:to_date].present?
+  expiry_filter_query.to_h.merge!({supplier_id: params[:supplier_id]}) if params[:supplier_id].present?
+  claims = ExpiryDamage.includes(:supplier).where(expiry_filter_query).group_by{|i| [i.claim_no, i.ack_date]}
+  claims.map{|k, v| data << {"claim_no": k[0], "total_quantity": v.pluck(:quantity), "settled_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
   render json: data
 end
 
 def free_discount_claims
-  
   data=[]
-  #byebug
-  if params["supplier_id"].present?   #&&params["from_date"]&&params["to_date"].present?
-    claim_no=FreeDiscount.where(supplier_id:params[:supplier_id],ack_date: params[:from_date]..params[:to_date]).pluck(:claim_no).uniq
-  else
-    claim_no=FreeDiscount.where(ack_date: params[:from_date]..params[:to_date]).pluck(:claim_no).uniq
-  end
-  supplier_id = params[:supplier_id].present? ? params[:supplier_id] : FreeDiscount.all.pluck(:supplier_id).uniq
-  claim_no.map{|i| data << {"claim_no":i,"total_quantity":FreeDiscount.where(claim_no: i).pluck(:total_quantity),"settled_amount": FreeDiscount.where(claim_no:i,supplier_id: supplier_id).pluck(:ws_settle_amount),"claim_amount":FreeDiscount.where(claim_no:i,supplier_id: supplier_id).pluck(:claim_amount),"data":FreeDiscount.where(claim_no:i,supplier_id: supplier_id).as_json(include: {:supplier=>{only: :supplier_name}})}}
-  
+  free_disc_filter_query = {amount_status: nil}
+  free_disc_filter_query.to_h.merge!({ack_date: (params[:from_date]..params[:to_date])}) if params[:from_date].present? && params[:to_date].present?
+  free_disc_filter_query.to_h.merge!({supplier_id: params[:supplier_id]}) if params[:supplier_id].present?
+  claims = FreeDiscount.includes(:supplier).where(free_disc_filter_query).group_by{|i| [i.claim_no, i.ack_date]}
+  claims.map{|k, v| data << {"claim_no": k[0], "total_quantity": v.pluck(:quantity), "settled_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
   render json: data
 end
 # the below method is used to display the purchase return claim report
@@ -521,13 +513,11 @@ end
 # the below method is used to display the ratechange claim report
 def rate_change_claims
   data=[]
-  if params["supplier_id"].present?    # && params["from_date"]&&params["to_date"].present?
-    claim_no=RateChange.where(supplier_id:params[:supplier_id],ack_date: params[:from_date]..params[:to_date]).pluck(:claim_number).uniq
-  else
-    claim_no=RateChange.where(ack_date: params[:from_date]..params[:to_date]).pluck(:claim_number).uniq
-  end
-  supplier_id = params[:supplier_id].present? ? params[:supplier_id] : RateChange.all.pluck(:supplier_id).uniq
-  claim_no.map{|i| data << {"claim_no":i,"total_quantity":RateChange.where(claim_number: i).pluck(:quantity),"settled_amount": RateChange.where(claim_number:i,supplier_id: supplier_id).pluck(:ws_settle_amount),"claim_amount":RateChange.where(claim_number:i,supplier_id: supplier_id).pluck(:claim_amount),"data":RateChange.where(claim_number:i,supplier_id: supplier_id).as_json(include: {:supplier=>{only: :supplier_name}})}}
+  filter_query = {amount_status: nil}
+  filter_query.to_h.merge!({ack_date: (params[:from_date]..params[:to_date])}) if params[:from_date].present? && params[:to_date].present?
+  filter_query.to_h.merge!({supplier_id: params[:supplier_id]}) if params[:supplier_id].present?
+  claims = RateChange.includes(:supplier).where(filter_query).group_by{|i| [i.claim_number, i.ack_date]}
+  claims.map{|k, v| data << {"claim_number": k[0], "total_quantity": v.pluck(:quantity), "settled_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
   render json: data
 end
 
