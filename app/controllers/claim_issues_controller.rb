@@ -3,16 +3,15 @@ class ClaimIssuesController < ApplicationController
 
   # GET /claim_issues
   def index
-    if params["from_date"].present? && params["to_date"].present?
-      claim_issues = ClaimIssue.where(cut_off_date: params["from_date"]..params["to_date"])
-    else
-      claim_issues = ClaimIssue.all
-    end
-    claim_issues = claim_issues.where(status: params["status"]) if params["status"].present?
-    claim_issues = claim_issues.where(user_id: params["user_id"]) if params["user_id"].present?
-    claim_issues = claim_issues.where(devision_id: params["devision_id"]) if params["devision_id"].present?
-    @claim_issues = claim_issues.order(created_at: :desc).as_json(include: [:contact, :division, :user])
-    render json: @claim_issues
+    filter_query = {}
+    filter_query.to_h.merge!({status: params["status"]}) if params["status"].present?
+    filter_query.to_h.merge!({user_id: params["user_id"]}) if params["user_id"].present?
+    filter_query.to_h.merge!({division_id: params["division_id"]}) if params["division_id"].present?
+    filter_query.to_h.merge!({cut_off_date: (params["from_date"]..params["to_date"])}) if params["from_date"].present? && params["to_date"].present?
+    puts "filter_query => #{filter_query}"
+    @claim_issues = ClaimIssue.includes(:contact, :division, :user).where(filter_query).order(cut_off_date: :desc)
+    #@claim_issues = ClaimIssue.where(filter_query).order(cut_off_date: :desc)#.as_json(include: [:contact, :division, :user])
+    render json: @claim_issues.to_json(include: [:contact, :division, :user])
   end
 
   # GET /claim_issues/1
