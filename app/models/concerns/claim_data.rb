@@ -24,10 +24,11 @@ module ClaimData
 			zero_paid_datas = query.where(amount_status:nil, claim_status: [nil, "0"]).where(ws_settle_amount:["", nil])
 			zero_paid = zero_paid_datas.pluck("count(id), sum(claim_amount::float)").first
 			puts "===============zero_paid total_records ===#{zero_paid_datas.class}"
-			datas = query.where(amount_status:nil, claim_status: "0").where.not(ws_settle_amount: "").where('ws_settle_amount::float +400 < claim_amount::float')
+			datas = query.where(amount_status:nil, claim_status: "0").where.not(ws_settle_amount: "").where('ws_settle_amount::float < claim_amount::float')
 			puts "===============pending_records ===#{(datas + zero_paid_datas).count}"
+			data = self.where(id: zero_paid_datas.pluck(:id) + datas.pluck(:id))
 			count_and_sum = datas.pluck('count(id), sum(claim_amount::float), sum(ws_settle_amount::float)').first
-			return {count: count_and_sum[0] + zero_paid[0], amount: ((count_and_sum[1].to_f + zero_paid[1].to_f).to_f - count_and_sum[2].to_f).to_f.round(2), datas: (datas.to_a + zero_paid_datas.to_a).try(:flatten)}
+			return {count: count_and_sum[0] + zero_paid[0], amount: ((count_and_sum[1].to_f + zero_paid[1].to_f).to_f - count_and_sum[2].to_f).to_f.round(2), datas: data}
 			puts "============================================================================"
 		end
 
