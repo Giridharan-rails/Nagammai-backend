@@ -79,8 +79,9 @@ class SopsController < ApplicationController
    approval=params["approval"]
    status=params["status"]
    remarks=params["remarks"]
-   (0..ids.count-1).map{|i| ClaimIssue.find(ids[i]).update(:status=>status[i],:remarks=>remarks[i])}
-   approval.map{|i| ClaimIssue.find(i).update(:approval=>true)}
+   user=params["users"]
+   (0..ids.count-1).map{|i| ClaimIssue.find(ids[i]).update_columns(:status=>status[i],:user_id=>user[i])}
+   #approval.map{|i| ClaimIssue.find(i).update(:approval=>true)}
 
    render json: true
    rescue =>e

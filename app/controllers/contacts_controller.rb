@@ -6,7 +6,7 @@ class ContactsController < ApplicationController
   def index
     Rails.logger.info_log.info  " I,[#{Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")}]" "INFO -- : Entered in contacts_controller index method"
     begin   
-      @contacts = Contact.all.order('name ASC').as_json(include: [:sub_contact,:jobs_name])
+      @contacts = Contact.includes(:sub_contact, :jobs_name).order('name ASC').as_json(include: [:sub_contact,:jobs_name])
       render json: @contacts
       if @contacts.nil?
         Rails.logger.debug_log.debug { "#{"contact data not available"}"}

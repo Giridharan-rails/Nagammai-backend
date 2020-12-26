@@ -24,15 +24,14 @@ development:
   <<: *default
   #database: nagammai_devlopment1
   database: nagammai_live_devlopment
-  username: giridharan
-  password: rails123
+  username: altius
+  password: altius@123
 
 test:
   <<: *default
   database: nagammai_live_test
-  username: giridharan
-  password: rails123
-
+  username: altius
+  password: altius@123
 
 
 

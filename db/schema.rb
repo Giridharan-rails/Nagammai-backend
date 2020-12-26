@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201201082023) do
+ActiveRecord::Schema.define(version: 20201224100537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,8 +67,12 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.string "mail_status"
     t.string "remarks"
     t.string "manual_status"
+    t.bigint "division_id"
+    t.bigint "user_id"
     t.index ["appointment_id"], name: "index_claim_issues_on_appointment_id"
     t.index ["contact_id"], name: "index_claim_issues_on_contact_id"
+    t.index ["division_id"], name: "index_claim_issues_on_division_id"
+    t.index ["user_id"], name: "index_claim_issues_on_user_id"
   end
 
   create_table "claim_mails", force: :cascade do |t|
@@ -938,6 +942,8 @@ ActiveRecord::Schema.define(version: 20201201082023) do
   add_foreign_key "appointments", "users"
   add_foreign_key "claim_issues", "appointments"
   add_foreign_key "claim_issues", "contacts"
+  add_foreign_key "claim_issues", "divisions"
+  add_foreign_key "claim_issues", "users"
   add_foreign_key "claim_mails", "claims"
   add_foreign_key "claims", "suppliers"
   add_foreign_key "divisions", "manufacturers"
