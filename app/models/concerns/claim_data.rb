@@ -19,14 +19,16 @@ module ClaimData
 			puts "===============T/F ===#{start_date && end_date ? 'True' : 'False'}"
 
 			query = start_date && end_date ? where( Hash[ (has_attribute?(:ack_date) ? "ack_date" : "claim_date").to_sym, start_date..end_date]) : where(nil)
-			puts "===============query ===#{query.count}"
-			zero_paid = query.where(amount_status:nil, claim_status: [nil, "0"]).where(ws_settle_amount:["", nil]).pluck("count(id), sum(claim_amount::float)").first
-			puts "===============zero_paid ===#{zero_paid[1]}"
-			datas = query.where(amount_status:nil, claim_status: "0").where.not(ws_settle_amount: "").where('ws_settle_amount::float < claim_amount::float')
-			puts "===============datas ===#{datas.count}"
+
+			puts "===============total_records ===#{query.count}"
+			zero_paid_datas = query.where(amount_status:nil, claim_status: [nil, "0"]).where(ws_settle_amount:["", nil])
+			zero_paid = zero_paid_datas.pluck("count(id), sum(claim_amount::float)").first
+			puts "===============zero_paid total_records ===#{zero_paid_datas.class}"
+			datas = query.where(amount_status:nil, claim_status: "0").where.not(ws_settle_amount: "").where('ws_settle_amount::float +400 < claim_amount::float')
+			puts "===============pending_records ===#{(datas + zero_paid_datas).count}"
 			count_and_sum = datas.pluck('count(id), sum(claim_amount::float), sum(ws_settle_amount::float)').first
-			puts "===============count_and_sum ===#{count_and_sum.first}"
-			return {count: count_and_sum[0] + zero_paid[0], amount: ((count_and_sum[1].to_f + zero_paid[1].to_f).to_f - count_and_sum[2].to_f).to_f.round(2), datas: datas}
+			return {count: count_and_sum[0] + zero_paid[0], amount: ((count_and_sum[1].to_f + zero_paid[1].to_f).to_f - count_and_sum[2].to_f).to_f.round(2), datas: (datas.to_a + zero_paid_datas.to_a).try(:flatten)}
+			puts "============================================================================"
 		end
 
 		def setteld_claims(start_date = nil, end_date = nil)

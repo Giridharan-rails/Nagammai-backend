@@ -271,8 +271,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.string "adjusted_quantity"
     t.string "rejected_quantity"
     t.string "claim_status"
-    t.index ["product_id"], name: "index_expiry_damages_on_product_id"
-    t.index ["supplier_id"], name: "index_expiry_damages_on_supplier_id"
   end
 
   create_table "free_discount_emails", force: :cascade do |t|
@@ -329,8 +327,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.string "rejected_quantity"
     t.string "claim_status"
     t.string "batch_desc"
-    t.index ["product_id"], name: "index_free_discounts_on_product_id"
-    t.index ["supplier_id"], name: "index_free_discounts_on_supplier_id"
   end
 
   create_table "goods_receipts", force: :cascade do |t|
@@ -347,8 +343,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.bigint "supplier_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_goods_receipts_on_product_id"
-    t.index ["supplier_id"], name: "index_goods_receipts_on_supplier_id"
   end
 
   create_table "goods_received_notes", force: :cascade do |t|
@@ -376,8 +370,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.bigint "supplier_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_goods_received_notes_on_product_id"
-    t.index ["supplier_id"], name: "index_goods_received_notes_on_supplier_id"
   end
 
   create_table "grn_logs", force: :cascade do |t|
@@ -421,7 +413,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.datetime "updated_at", null: false
     t.string "old_id"
     t.bigint "supplier_id"
-    t.index ["supplier_id"], name: "index_manufacturers_on_supplier_id"
   end
 
   create_table "marketing_titles", force: :cascade do |t|
@@ -519,7 +510,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.float "mrp"
     t.string "nm_no"
     t.string "packing"
-    t.index ["product_id"], name: "index_non_moving_stocks_on_product_id"
   end
 
   create_table "nonmoving_stock_emails", id: :serial, force: :cascade do |t|
@@ -601,8 +591,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.bigint "product_id"
     t.string "grn_no_dummy"
     t.string "po_no_dummy"
-    t.index ["product_id"], name: "index_pogr_mismatches_on_product_id"
-    t.index ["supplier_id"], name: "index_pogr_mismatches_on_supplier_id"
   end
 
   create_table "pogr_syns", force: :cascade do |t|
@@ -634,8 +622,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "old_id"
-    t.index ["division_id"], name: "index_products_on_division_id"
-    t.index ["supplier_id"], name: "index_products_on_supplier_id"
   end
 
   create_table "purchase_orders", force: :cascade do |t|
@@ -662,10 +648,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.string "overall_note"
     t.string "gst"
     t.string "claim_status"
-    t.index ["division_id"], name: "index_purchase_orders_on_division_id"
-    t.index ["manufacturer_id"], name: "index_purchase_orders_on_manufacturer_id"
-    t.index ["product_id"], name: "index_purchase_orders_on_product_id"
-    t.index ["supplier_id"], name: "index_purchase_orders_on_supplier_id"
   end
 
   create_table "purchase_return_emails", force: :cascade do |t|
@@ -721,8 +703,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.string "adjusted_quantity"
     t.string "rejected_quantity"
     t.string "claim_status"
-    t.index ["product_id"], name: "index_purchase_returns_on_product_id"
-    t.index ["supplier_id"], name: "index_purchase_returns_on_supplier_id"
   end
 
   create_table "rate_change_emails", force: :cascade do |t|
@@ -777,9 +757,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.string "adjusted_quantity"
     t.string "rejected_quantity"
     t.string "claim_status"
-    t.index ["division_id"], name: "index_rate_changes_on_division_id"
-    t.index ["product_id"], name: "index_rate_changes_on_product_id"
-    t.index ["supplier_id"], name: "index_rate_changes_on_supplier_id"
   end
 
   create_table "receive_mails", force: :cascade do |t|
@@ -862,8 +839,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.bigint "claim_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["claim_id"], name: "index_settled_claims_on_claim_id"
-    t.index ["supplier_id"], name: "index_settled_claims_on_supplier_id"
   end
 
   create_table "sops", force: :cascade do |t|
@@ -887,8 +862,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
     t.string "appoint_time1"
     t.string "appoint_time2"
     t.string "appoint_time3"
-    t.index ["division_id"], name: "index_sops_on_division_id"
-    t.index ["supplier_id"], name: "index_sops_on_supplier_id"
   end
 
   create_table "supplier_syns", force: :cascade do |t|
@@ -996,4 +969,6 @@ ActiveRecord::Schema.define(version: 20201201082023) do
   add_foreign_key "rate_changes", "suppliers"
   add_foreign_key "settled_claims", "claims"
   add_foreign_key "settled_claims", "suppliers"
+  add_foreign_key "claim_issues", "divisions"
+  add_foreign_key "claim_issues", "users"
 end
