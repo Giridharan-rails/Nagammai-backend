@@ -73,7 +73,7 @@ def dashboard
     @adjustment_count  = setteld_claims.fetch(:count)
     @adjustment_amount = setteld_claims.fetch(:amount)
     @month = (0..11).map{|i| today.end_of_month - i.month}.reverse
-    #@amount = (0..11).to_a
+    # @amount = (0..11).to_a
     @amount = @month.map { |i| [FreeDiscount.pending_claims(previous_year, i), ExpiryDamage.pending_claims(previous_year, i), RateChange.pending_claims(previous_year, i), PurchaseReturn.pending_claims(previous_year, i), NonFindableClaim.pending_claims(previous_year, i)].inject{|memo, el| memo.merge( el ){|k, old_v, new_v| old_v + new_v}}.fetch(:amount) }
     data = {
             "claim_count": @claim_count,

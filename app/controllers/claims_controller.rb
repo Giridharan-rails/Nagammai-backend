@@ -495,7 +495,7 @@ def free_discount_claims
   free_disc_filter_query.to_h.merge!({ack_date: (params[:from_date]..params[:to_date])}) if params[:from_date].present? && params[:to_date].present?
   free_disc_filter_query.to_h.merge!({supplier_id: params[:supplier_id]}) if params[:supplier_id].present?
   claims = FreeDiscount.includes(:supplier).where(free_disc_filter_query).group_by{|i| [i.claim_no, i.ack_date]}
-  claims.map{|k, v| data << {"claim_no": k[0], "total_quantity": v.pluck(:quantity), "settled_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
+  claims.map{|k, v| data << {"claim_no": k[0], "total_quantity": v.pluck(:total_quantity), "settled_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
   render json: data
 end
 # the below method is used to display the purchase return claim report
@@ -517,7 +517,7 @@ def rate_change_claims
   filter_query.to_h.merge!({ack_date: (params[:from_date]..params[:to_date])}) if params[:from_date].present? && params[:to_date].present?
   filter_query.to_h.merge!({supplier_id: params[:supplier_id]}) if params[:supplier_id].present?
   claims = RateChange.includes(:supplier).where(filter_query).group_by{|i| [i.claim_number, i.ack_date]}
-  claims.map{|k, v| data << {"claim_number": k[0], "total_quantity": v.pluck(:quantity), "settled_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
+  claims.map{|k, v| data << {"claim_no": k[0], "total_quantity": v.pluck(:quantity), "settled_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
   render json: data
 end
 
