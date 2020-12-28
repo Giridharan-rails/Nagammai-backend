@@ -26,7 +26,7 @@ module ClaimData
 			query = start_date && end_date ? where( Hash[ (has_attribute?(:ack_date) ? "ack_date" : "claim_date").to_sym, start_date..end_date]) : where(nil)
 			datas = query.where(amount_status:nil, claim_status: "0").where.not(ws_settle_amount: "").where('ws_settle_amount::float >= claim_amount::float')
 			count_and_sum = datas.pluck('count(id), sum(claim_amount::float)').first
-			return {count: count_and_sum[0].to_f, amount: count_and_sum[1].to_f.round(2), datas: datas}
+			return {count: count_and_sum[0].to_i, amount: count_and_sum[1].to_f.round(2), datas: datas}
 		end
   	end
 end
