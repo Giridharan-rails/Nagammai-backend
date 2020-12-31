@@ -493,7 +493,7 @@ def pending_claims_report
   discount_filter_query.to_h.merge!({ack_date: (params[:from_date]..params[:to_date])}) if params[:from_date].present? && params[:to_date].present?
   discount_filter_query.to_h.merge!({supplier_id: params[:supplier_id]}) if params[:supplier_id].present?
   claims = FreeDiscount.where(discount_filter_query).pending_claims(nil,nil,true).fetch(:datas).includes(:supplier).group_by{|i| [i.claim_no, i.ack_date]}
-  claims.map{|k, v| data3 << {"claim_no": k[0], "total_quantity": v.pluck(:total_quantity), "ws_settle_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
+  claims.map{|k, v| data3 << {"claim_no": k[0], "total_quantity": v.pluck(:total_quantity), "adjusted_quantity": v.pluck(:adjusted_quantity), "ws_settle_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
 
 
   data1=[]
@@ -501,28 +501,28 @@ def pending_claims_report
   returns_filter_query.to_h.merge!({claim_date: (params[:from_date]..params[:to_date])}) if params[:from_date].present? && params[:to_date].present?
   returns_filter_query.to_h.merge!({supplier_id: params[:supplier_id]}) if params[:supplier_id].present?
   claims = PurchaseReturn.where(returns_filter_query).pending_claims(nil,nil,true).fetch(:datas).includes(:supplier).group_by{|i| [i.claim_no, i.claim_date]}
-  claims.map{|k, v| data1 << {"claim_no": k[0], "total_quantity": v.pluck(:quantity), "ws_settle_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
+  claims.map{|k, v| data1 << {"claim_no": k[0], "total_quantity": v.pluck(:quantity), "adjusted_quantity": v.pluck(:adjusted_quantity), "ws_settle_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
   
   data4=[]
   ratechange_filter_query = {amount_status: nil}
   ratechange_filter_query.to_h.merge!({ack_date: (params[:from_date]..params[:to_date])}) if params[:from_date].present? && params[:to_date].present?
   ratechange_filter_query.to_h.merge!({supplier_id: params[:supplier_id]}) if params[:supplier_id].present?
   claims = RateChange.where(ratechange_filter_query).pending_claims(nil,nil,true).fetch(:datas).includes(:supplier).group_by{|i| [i.claim_number, i.ack_date]}
-  claims.map{|k, v| data4 << {"claim_no": k[0], "total_quantity": v.pluck(:quantity), "ws_settle_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
+  claims.map{|k, v| data4 << {"claim_no": k[0], "total_quantity": v.pluck(:quantity), "adjusted_quantity": v.pluck(:adjusted_quantity), "ws_settle_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
 
   data2=[]
   expiry_filter_query = {amount_status: nil}
   expiry_filter_query.to_h.merge!({ack_date: (params[:from_date]..params[:to_date])}) if params[:from_date].present? && params[:to_date].present?
   expiry_filter_query.to_h.merge!({supplier_id: params[:supplier_id]}) if params[:supplier_id].present?
   claims = ExpiryDamage.where(expiry_filter_query).pending_claims(nil,nil,true).fetch(:datas).includes(:supplier).group_by{|i| [i.claim_no, i.ack_date]}
-  claims.map{|k, v| data2 << {"claim_no": k[0], "total_quantity": v.pluck(:quantity), "ws_settle_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
+  claims.map{|k, v| data2 << {"claim_no": k[0], "total_quantity": v.pluck(:quantity), "adjusted_quantity": v.pluck(:adjusted_quantity), "ws_settle_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
 
   data5=[]
   expiry_filter_query = {amount_status: nil}
   expiry_filter_query.to_h.merge!({ack_date: (params[:from_date]..params[:to_date])}) if params[:from_date].present? && params[:to_date].present?
   expiry_filter_query.to_h.merge!({supplier_id: params[:supplier_id]}) if params[:supplier_id].present?
   claims = NonFindableClaim.where(expiry_filter_query).pending_claims(nil,nil,true).fetch(:datas).includes(:supplier).group_by{|i| [i.claim_no, i.ack_date]}
-  claims.map{|k, v| data5 << {"claim_no": k[0], "total_quantity": v.pluck(:quantity), "ws_settle_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
+  claims.map{|k, v| data5 << {"claim_no": k[0], "total_quantity": v.pluck(:quantity), "adjusted_quantity": v.pluck(:adjusted_quantity), "ws_settle_amount": v.pluck(:ws_settle_amount), "claim_amount": v.pluck(:claim_amount), "data": v.as_json(include: {:supplier=>{only: :supplier_name}})}}
   
   data = {:purchase_return=>data1, :expiry=> data2, :free_discount=> data3, :ratechange=> data4, non_findable: data5}
   render json: data 
