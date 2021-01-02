@@ -80,7 +80,9 @@ class SopsController < ApplicationController
    status=params["status"]
    remarks=params["remarks"]
    user=params["users"]
+   delete_users=params["delete_users"]
    (0..ids.count-1).map{|i| ClaimIssue.find(ids[i]).update_columns(:status=>status[i],:user_id=>user[i])}
+   ClaimIssue.where(id: delete_users).destroy_all if delete_users.present?
    #approval.map{|i| ClaimIssue.find(i).update(:approval=>true)}
 
    render json: true
